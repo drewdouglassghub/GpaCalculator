@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="utf-8">
 <title>GPA Calculator</title>
-
+<script>
+var gpa = 0.0;
+</script>
 </head>
 <body>
 	<h1>GPA Calculator</h1>
 	
-	
-	
-<form name="form" onsubmit="validateForm()">
-  <h3>Customer Registration Form</h3>
+<form name="form" action="ViewGPAServlet" onsubmit="return validateForm(this)">
 <p>
 <label for="gpaField"></label>
-<input type="text" name="gpaField" id="gpaField">
+<input type="hidden" name="gpaField" id="gpaField" value="">
 </p>
       <p>
         <label for="txtFirstName">First Name:</label>
-        <input type="text" name="firstname" id="txtFirstName">
+        <input type="text" name="txtFirstName" id="txtFirstName" value="">
       </p>
       <p>
         <label for="txtLastName">Last Name:</label>
-        <input type="text" name="lastname" id="txtLastName">
+        <input type="text" name="txtLastName" id="txtLastName" value="">
       </p>
       <p>
         <label for="txtEmail">Email Address: </label>
-        <input type="text" name="email" id="txtEmail">
+        <input type="text" name="txtEmail" id="txtEmail" value="">
       </p>
       <p>
         <label for="txtGrade1">Course 1 Hours: </label>
@@ -37,24 +36,24 @@
       <p>
         <label for="txtGrade2">Course 2 Hours: </label>
         <input type="text" name="course2hrs" id="course2hrs"> 
-        <label for="txtGrade1">Grade: </label>
+        <label for="txtGrade2">Grade: </label>
         <input type="text" name="grade2" id="txtGrade2">
       </p>
       <p>
         <label for="txtGrade3">Course 3 Hours: </label>
         <input type="text" name="course3hrs" id="course3hrs"> 
-        <label for="txtGrade1">Grade: </label>
+        <label for="txtGrade3">Grade: </label>
         <input type="text" name="grade3" id="txtGrade3">
       </p>
       <p>
         <label for="txtGrade4">Course 4 Hours: </label>
         <input type="text" name="course4hrs" id="course4hrs"> 
-        <label for="txtGrade1">Grade: </label>
+        <label for="txtGrade4">Grade: </label>
         <input type="text" name="grade4" id="txtGrade4">
       </p>
       
 	
-	  <input type="submit" name="submit" id="button" value="Enter" >
+	  <input type="submit" name="submit" id="btnSubmit" value="Enter" onClick="return calcGpa();" >
 	  
 	  <script type="text/javascript">  
 	  
@@ -80,35 +79,9 @@
 	  }
 	  
 	  
-	  function calcGpa(studentName, studentEmail, g1, g2, g3, g4, hour1, hour2, hour3, hour4){
+	  function calcGpa(){
 			
-			var hours = parseFloat(hour1) + parseFloat(hour2) + parseFloat(hour3) + parseFloat(hour4);
-	
-			g1 = convertGrade(g1);
-			g2 = convertGrade(g2);
-			g3 = convertGrade(g3);
-			g4 = convertGrade(g4);
-				
-			var gpa = ((g1 * hour1) + (g2 * hour2) + (g3 * hour3) + (g4 * hour4))/hours;	
-			document.getElementById("gpaField").value = gpa;
-			
-			/*var xhttp = new XMLHttpRequest();
-			xhttp.open("GET", "localhost:8085/GPACalculator/ViewGPAServlet.java?myPostVar="+ gpa, true);
-			xhttp.send();*/
-			
-			
-			/*$.ajax({
-				type:'GET',
-			    url: 'localhost:8085/GPACalculator/ViewGPAServlet.java',
-			    processData: true,
-			    data: { postVar: gpa}
-			  
-			});*/
-
-	}
-	  
-	  function validateForm(){
-		  var firstName = document.getElementById("txtFirstName").value;
+			firstName = document.getElementById("txtFirstName").value;
 			var lastName = document.getElementById("txtLastName").value;
 			var studentName = firstName + " " + lastName;
 			var studentEmail = document.getElementById("txtEmail").value;
@@ -123,101 +96,110 @@
 			var hour3 = document.getElementById("course3hrs").value;
 			var hour4 = document.getElementById("course4hrs").value;
 			
-			 if (studentName == "")                                  
-			    { 
-			        window.alert("Missing fields"); 
-			        txtFirstName.focus(); 
-			
-			    } else
-			 if (studentEmail == "")                                   
-			    { 
-			        window.alert("Missing fields"); 
-			        txtEmail.focus(); 
-			 
-			    } else
-			 if (studentEmail.includes(".") == false)                
-			    { 
-			        window.alert("Missing fields"); 
-			        txtEmail.focus(); 
-			      
-			    } else
-			 if (studentEmail.includes("@") == false)                 
-			    { 
-			        window.alert("Missing fields"); 
-			        txtEmail.focus(); 
-			    
-			    } else
-
-			 if (g1 == "")                  
-			    { 
-			        alert("Missing fields"); 
-			        txtGrade1.focus(); 
-			
-			    } else
-				if (g2 == "")                  
-			    { 
-			        alert("Missing fields"); 
-			        txtGrade1.focus(); 
-			   
-			    } else
-				if (g3 == "")                  
-			    { 
-			        alert("Missing fields"); 
-			        txtGrade1.focus(); 
-			       
-			    } else
+			var hours = parseFloat(hour1) + parseFloat(hour2) + parseFloat(hour3) + parseFloat(hour4);
+	
+			g1 = convertGrade(g1);
+			g2 = convertGrade(g2);
+			g3 = convertGrade(g3);
+			g4 = convertGrade(g4);
 				
-				if (g4 == "")                  
-			    { 
-			        alert("Missing fields"); 
-			        txtGrade1.focus(); 
-			        
-			    } else
-				if (hour1 < 0)                  
-			    { 
-			        alert("Missing fields"); 
-			        txtGrade1.focus(); 
-			        
-			    } else
-				if (hour2 < 0)                  
-			    { 
-			        alert("Missing fields"); 
-			        txtGrade1.focus(); 
-			       
-			    } else
-				if (hour3 < 0)                  
-			    { 
-			        alert("Missing fields"); 
-			        txtGrade1.focus(); 
-			       
-			    } else
-			 if (hour4 < 0)                  
-			    { 
-			        alert("Missing fields"); 
-			        txtGrade1.focus(); 
-			        
-			    } 
-			 
-			else{
-				
-				calcGpa(studentName, studentEmail, g1, g2, g3, g4, hour1, hour2, hour3, hour4);
+			gpa = ((g1 * hour1) + (g2 * hour2) + (g3 * hour3) + (g4 * hour4))/hours;	
+			document.getElementById("gpaField").value = gpa;
+			document.getElementById("txtFirstName").value = firstName;
+			document.getElementById("txtLastName").value = lastName;
 			
-			 }		 
-	  }
-
-	  </script>
-	</form>
-	<script>
-	function transmitForm(gpa){
-	$.ajax({
-		type:'GET',
-	    url: 'localhost:8085/GPACalculator/ViewGPAServlet.java',
-	    processData: true,
-	    data: { postVar: gpa}
-	  
-	});
+			
+			console.log(document.getElementById("txtFirstName").value);
+			console.log(document.getElementById("txtLastName").value);
+			console.log(document.getElementById("gpaField").value);
+			/*var xhttp = new XMLHttpRequest();
+			xhttp.open("GET", "localhost:8085/GPACalculator/ViewGPAServlet.java?myPostVar="+ gpa, true);
+			xhttp.send();*/
+			
+			
 	}
-	</script>
+	  
+	  function validateForm(){
+	  
+		  var firstName = document.getElementById("txtFirstName").value;
+			var lastName = document.getElementById("txtLastName").value;
+			var studentName = firstName + " " + lastName;
+			var studentEmail = document.getElementById("txtEmail").value;
+			
+			var emailChar1 = "@";
+			var emailChar2 = ".";
+			
+			var g1 = document.getElementById("txtGrade1").value;
+			var g2 = document.getElementById("txtGrade2").value;
+			var g3 = document.getElementById("txtGrade3").value;
+			var g4 = document.getElementById("txtGrade4").value;	
+			
+			g1 = g1.toUpperCase();
+			g2 = g2.toUpperCase();
+			g3 = g3.toUpperCase();
+			g4 = g4.toUpperCase();
+			
+			
+			var hour1 = document.getElementById("course1hrs").value;
+			var hour2 = document.getElementById("course2hrs").value;
+			var hour3 = document.getElementById("course3hrs").value;
+			var hour4 = document.getElementById("course4hrs").value;
+			
+			 
+				if (firstName == "") {
+						window.alert("Invalid first name");
+						return false;
+					} else if (lastName == "") {
+						window.alert("Invalid last name");					
+						return false;
+
+					}else if (studentEmail.includes(emailChar1) == false) {
+						window.alert("Invalid email");
+						return false;
+
+					} else if (studentEmail.includes(emailChar2) == false) {
+						window.alert("Invalid email");
+						return false;
+
+					}else if (studentEmail == "") {
+						window.alert("Invalid email");					
+						return false;
+
+					}  else if (g1 != "A" && g1 != "B" && g1 != "C" && g1 != "D" && g1 != "F") {
+						window.alert("Grade 1 invalid");
+						return false;
+
+					} else if (g2 != "A" && g2 != "B" && g2 != "C" && g2 != "D" && g2 != "F") {
+						window.alert("Grade 2 Invalid");
+						return false;
+
+					} else if (g3 != "A" && g3 != "B" && g3 != "C" && g3 != "D" && g3 != "F") {
+						window.alert("Grade 3 Invalid");
+						return false;
+					} else if (g4 != "A" && g4 != "B" && g4 != "C" && g4 != "D" && g4 != "F") {
+						window.alert("Grade 4 Invalid");
+						return false;
+					} else if (hour1 <= 0) {
+						alert("Invalid hours");
+						return false;
+					} else if (hour2 <= 0) {
+						alert("Invalid hours");
+						return false;
+					} else if (hour3 <= 0) 
+					{
+						alert("Invalid hours");
+						return false;
+					} else if (hour4 <= 0) {
+						alert("Invalid hours");
+						return false;
+					}
+					else {						
+						return true;
+					}
+				}
+			</script>
+	</form>
+
 	
 </body>
 </html>

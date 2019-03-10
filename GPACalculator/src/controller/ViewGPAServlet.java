@@ -1,16 +1,14 @@
-package controller;
+package controller;//ISO-8859-1
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.student;
 
 /**
  * Servlet implementation class ViewGPAServlet
@@ -32,20 +30,15 @@ public class ViewGPAServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		float gpa;
-		student s = new student();
 		
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		
-		String otherGpa =request.getParameter("postVar");
-		System.out.print(otherGpa);
-		out.print(otherGpa);
-		
-		//gpa = Float.parseFloat(request.getParameter("postVar"));
-		//out.print(gpa);
-		//s.setGpa(gpa);
-		//request.setAttribute("GPA", s.getGpa());
+		String firstName = request.getParameter("txtFirstName");
+		String lastName = request.getParameter("txtLastName");
+
+		String gpa =  request.getParameter("gpaField");
+		out.print(firstName + " " + lastName + " has a GPA of: " + Float.parseFloat(gpa));
 		
 		
 		//getServletContext().getRequestDispatcher("/Gpa.jsp").forward(request, response);
